@@ -1,23 +1,25 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from .models import Menu, Booking
-from .serializers import MenuSerialier, BookingSerializer
+from .models import MenuItem, Booking
+from .serializers import MenuItemSerialier, BookingSerializer
+from rest_framework.permissions import IsAuthenticated
 
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]
 
 class MenuItemsView(generics.ListCreateAPIView):
-    queryset = Menu.objects.all()
-    serializer_class = MenuSerialier
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerialier
 
 class SingleMenuItemView(
     generics.RetrieveUpdateAPIView, 
     generics.DestroyAPIView
 ):
-    queryset = Menu.objects.all()
-    serializer_class = MenuSerialier
+    queryset = MenuItem.objects.all()
+    serializer_class = MenuItemSerialier
 
 
 def index(request):
